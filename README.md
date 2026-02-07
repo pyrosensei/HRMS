@@ -81,18 +81,18 @@ Built on FastAPI with async support, SQLAlchemy ORM, and optimized database quer
 
 ### Employee Management
 
-| **Method** | **Endpoint** | **Description** | **Request Body** |
-|:----------:|--------------|-----------------|------------------|
-| `POST` | `/employees/` | Create new employee | `{ "name": "string", "email": "string", "department": "string" }` |
-| `GET` | `/employees/` | List all employees | None |
-| `DELETE` | `/employees/{id}` | Delete employee | None |
+| **Method** | **Endpoint** | **Description** | **Request Body** | **Response Body** |
+|:----------:|--------------|-----------------|------------------|-------------------|
+| `POST` | `/employees/` | Create new employee | `{ "name": "string", "email": "string", "department": "string" }` | `{ "id": int, "name": "string", "email": "string", "department": "string" }` |
+| `GET` | `/employees/` | List all employees | None | `[{ "id": int, "name": "string", "email": "string", "department": "string" }, ...]` |
+| `DELETE` | `/employees/{id}` | Delete employee | None | `{ "message": "string" }` |
 
 ### Attendance Tracking
 
-| **Method** | **Endpoint** | **Description** | **Request Body** |
-|:----------:|--------------|-----------------|------------------|
-| `POST` | `/attendance/` | Mark attendance | `{ "employee_id": int, "date": "YYYY-MM-DD", "status": "Present/Absent" }` |
-| `GET` | `/attendance/` | View all records | None |
+| **Method** | **Endpoint** | **Description** | **Request Body** | **Response Body** |
+|:----------:|--------------|-----------------|------------------|-------------------|
+| `POST` | `/attendance/` | Mark attendance | `{ "employee_id": int, "date": "YYYY-MM-DD", "status": "Present/Absent" }` | `{ "id": int, "employee_id": int, "date": "YYYY-MM-DD", "status": "string" }` |
+| `GET` | `/attendance/` | View all records | None | `[{ "id": int, "employee_id": int, "date": "YYYY-MM-DD", "status": "string" }, ...]` |
 
 </div>
 
