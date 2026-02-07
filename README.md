@@ -1,51 +1,95 @@
-# HRMS Lite - Full Stack Assessment
+<div align="center">
 
-A lightweight Human Resource Management System built with modern web technologies. This project demonstrates a complete full-stack application with a RESTful API backend and a responsive frontend interface.
+# 🚀 HRMS Lite - Modern HR Management System
 
-![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.109-green.svg)
-![SQLite](https://img.shields.io/badge/SQLite-3-blue.svg)
-![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-purple.svg)
+### *Streamline Your Workforce Management with Cutting-Edge Technology*
+
+[![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![SQLite](https://img.shields.io/badge/SQLite-3-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
+[![Deployed on Render](https://img.shields.io/badge/Deployed%20on-Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://render.com/)
+
+---
+
+### ✨ A lightweight, high-performance Human Resource Management System built with modern web technologies
+
+</div>
+
+---
+
+## 🌟 Key Features
+
+<table>
+  <tr>
+    <td width="33%" align="center">
+      <h3>👥 Employee Management</h3>
+      <p>Effortlessly manage employee records with full CRUD operations. Add, view, and delete employee information with a clean and intuitive interface.</p>
+    </td>
+    <td width="33%" align="center">
+      <h3>📊 Smart Attendance Tracking</h3>
+      <p>Track employee attendance with date-based records. Mark Present/Absent status and maintain comprehensive attendance history.</p>
+    </td>
+    <td width="33%" align="center">
+      <h3>⚡ High-Performance Architecture</h3>
+      <p>Built on FastAPI and SQLAlchemy ORM for lightning-fast API responses and efficient database operations.</p>
+    </td>
+  </tr>
+</table>
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| **Backend** | FastAPI (Python) |
-| **Database** | SQLite with SQLAlchemy ORM |
-| **Frontend** | HTML5, Bootstrap 5, Vanilla JavaScript |
-| **API Server** | Uvicorn (ASGI) |
+| Layer | Technology | Purpose |
+|-------|------------|---------|
+| **Backend Framework** | FastAPI | High-performance Python web framework with automatic API documentation |
+| **Database** | SQLite | Lightweight, serverless SQL database with SQLAlchemy ORM |
+| **Frontend** | Bootstrap 5 | Modern, responsive UI components with vanilla JavaScript |
+| **Deployment** | Render | Cloud platform for seamless deployment and hosting |
 
 ---
 
-## 📁 Project Structure
+## 🌐 Live Deployment
 
-```
-HRMS_Lite/
-├── main.py            # FastAPI application & API endpoints
-├── database.py        # Database connection & session management
-├── models.py          # SQLAlchemy ORM models
-├── requirements.txt   # Python dependencies
-├── hrms.db            # SQLite database (auto-generated)
-└── static/
-    └── index.html     # Frontend UI
-```
+🎯 **Access the Live Application:**
+- **Frontend UI:** [https://hrms-0zg8.onrender.com/static/index.html](https://hrms-0zg8.onrender.com/static/index.html)
+- **Interactive API Docs:** [https://hrms-0zg8.onrender.com/docs](https://hrms-0zg8.onrender.com/docs)
+- **Alternative API Docs:** [https://hrms-0zg8.onrender.com/redoc](https://hrms-0zg8.onrender.com/redoc)
 
 ---
 
-## 🚀 Setup Instructions
+## 📡 API Snapshot
+
+### Employee Endpoints
+
+| Method | Endpoint | Description | Request Body |
+|--------|----------|-------------|--------------|
+| `POST` | `/employees/` | Create a new employee | `{ "name": "string", "email": "string", "department": "string" }` |
+| `GET` | `/employees/` | Retrieve all employees | - |
+| `DELETE` | `/employees/{id}` | Delete an employee by ID | - |
+
+### Attendance Endpoints
+
+| Method | Endpoint | Description | Request Body |
+|--------|----------|-------------|--------------|
+| `POST` | `/attendance/` | Mark attendance for an employee | `{ "employee_id": int, "date": "YYYY-MM-DD", "status": "Present\|Absent" }` |
+| `GET` | `/attendance/` | Retrieve all attendance records | - |
+
+---
+
+## 💻 Local Development Setup
 
 ### Prerequisites
 - Python 3.8 or higher
 - pip (Python package manager)
 
-### Installation
+### Installation Steps
 
-1. **Clone or navigate to the project directory:**
+1. **Clone the repository:**
    ```bash
-   cd HRMS_Lite
+   git clone https://github.com/pyrosensei/HRMS.git
+   cd HRMS
    ```
 
 2. **Install dependencies:**
@@ -58,54 +102,27 @@ HRMS_Lite/
    uvicorn main:app --reload
    ```
 
-4. **Access the application:**
+4. **Access the application locally:**
    - **Frontend UI:** http://127.0.0.1:8000/static/index.html
    - **API Documentation (Swagger):** http://127.0.0.1:8000/docs
    - **Alternative API Docs (ReDoc):** http://127.0.0.1:8000/redoc
 
 ---
 
-## 🌐 Live Deployment
+## 📁 Project Structure
 
-- **Live Application:** [Add URL after deployment]
-- **API Documentation:** [Your-Render-URL]/docs
-- **Backend API:** [Your-Render-URL]
-
----
-
-## 📡 API Documentation
-
-### Employee Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/employees/` | Create a new employee |
-| `GET` | `/employees/` | Retrieve all employees |
-| `DELETE` | `/employees/{id}` | Delete an employee by ID |
-
-#### Employee Schema
-```json
-{
-  "name": "string",
-  "email": "string",
-  "department": "string"
-}
 ```
-
-### Attendance Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/attendance/` | Mark attendance for an employee |
-| `GET` | `/attendance/` | Retrieve all attendance records |
-
-#### Attendance Schema
-```json
-{
-  "employee_id": "integer",
-  "date": "YYYY-MM-DD",
-  "status": "Present | Absent"
-}
+HRMS/
+├── 📄 main.py              # FastAPI application & RESTful API endpoints
+├── 🗄️ database.py          # Database connection & session management
+├── 📋 models.py            # SQLAlchemy ORM models (Employee & Attendance)
+├── 📦 requirements.txt     # Python dependencies
+├── 🔧 render.yaml          # Render deployment configuration
+├── 🗃️ hrms.db              # SQLite database (auto-generated)
+├── 🧪 test_add_employee.py # Test suite for employee operations
+├── ✅ verify_server.py     # Server verification script
+└── 📂 static/
+    └── 🌐 index.html       # Responsive frontend UI
 ```
 
 ---
@@ -115,33 +132,48 @@ HRMS_Lite/
 ### Employee Table
 | Column | Type | Constraints |
 |--------|------|-------------|
-| id | INTEGER | Primary Key, Auto-increment |
-| name | VARCHAR(100) | Not Null |
-| email | VARCHAR(100) | Unique, Not Null |
-| department | VARCHAR(100) | Not Null |
+| `id` | INTEGER | Primary Key, Auto-increment |
+| `name` | VARCHAR(100) | Not Null |
+| `email` | VARCHAR(100) | Unique, Not Null |
+| `department` | VARCHAR(100) | Not Null |
 
 ### Attendance Table
 | Column | Type | Constraints |
 |--------|------|-------------|
-| id | INTEGER | Primary Key, Auto-increment |
-| employee_id | INTEGER | Foreign Key → Employee.id |
-| date | DATE | Not Null |
-| status | VARCHAR(10) | Not Null (Present/Absent) |
+| `id` | INTEGER | Primary Key, Auto-increment |
+| `employee_id` | INTEGER | Foreign Key → Employee.id |
+| `date` | DATE | Not Null |
+| `status` | VARCHAR(10) | Not Null (Present/Absent) |
 
 ---
 
-## ⚠️ Disclaimer
+## 🎯 Features Highlights
 
-> **Note:** This project uses **SQLite** as the database for simplicity and ease of setup during this assessment. For production environments, it is recommended to use a more robust database solution such as **PostgreSQL** or **MySQL**.
+- ✅ **RESTful API** - Clean and well-documented API endpoints
+- ✅ **Automatic API Documentation** - Interactive Swagger UI and ReDoc
+- ✅ **CORS Enabled** - Ready for frontend integration
+- ✅ **Input Validation** - Pydantic schemas for data validation
+- ✅ **Responsive Design** - Mobile-friendly Bootstrap 5 UI
+- ✅ **Production Ready** - Deployed on Render with Gunicorn
 
 ---
 
 ## 📝 License
 
-This project is created for assessment purposes.
+This project is created for demonstration and educational purposes.
 
 ---
 
-## 👤 Author
+<div align="center">
 
-Created as part of a Full Stack Development Assessment.
+## 👨‍💻 Credits
+
+**Developed by [pyrosensei](https://github.com/pyrosensei)**
+
+*Built with ❤️ using FastAPI, SQLite, and Bootstrap*
+
+---
+
+### ⭐ If you find this project useful, please consider giving it a star!
+
+</div>
