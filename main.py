@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
@@ -144,12 +145,8 @@ def list_attendance(db: Session = Depends(get_db)):
 
 @app.get("/")
 def read_root():
-    """Root endpoint - API info"""
-    return {
-        "message": "Welcome to HRMS Lite API",
-        "docs": "/docs",
-        "frontend": "/static/index.html"
-    }
+    """Root endpoint - Serves the frontend"""
+    return FileResponse('static/index.html')
 
 
 if __name__ == "__main__":
