@@ -379,8 +379,17 @@
 
         // Format date for display
         function formatDate(dateString) {
-            const options = { year: 'numeric', month: 'short', day: 'numeric' };
-            return new Date(dateString).toLocaleDateString('en-US', options);
+            try {
+                const date = new Date(dateString);
+                if (isNaN(date.getTime())) {
+                    return dateString; // Return original string if invalid date
+                }
+                const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                return date.toLocaleDateString('en-US', options);
+            } catch (error) {
+                console.error('Error formatting date:', error);
+                return dateString;
+            }
         }
 
         // Get employee name by ID
@@ -392,20 +401,29 @@
         // Filter Employees (Bonus)
         function filterEmployees() {
             const input = document.getElementById('employeeSearch');
+            if (!input) return;
+            
             const filter = input.value.toUpperCase();
             const table = document.getElementById('employeeTableBody');
+            if (!table) return;
+            
             const tr = table.getElementsByTagName('tr');
 
             for (let i = 0; i < tr.length; i++) {
-                const tdName = tr[i].getElementsByTagName("td")[1]; // Name column
-                const tdDept = tr[i].getElementsByTagName("td")[3]; // Dept column (inside span)
-                if (tdName || tdDept) {
-                    const txtValueName = tdName.textContent || tdName.innerText;
-                    const txtValueDept = tdDept.textContent || tdDept.innerText;
-                    if (txtValueName.toUpperCase().indexOf(filter) > -1 || txtValueDept.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
+                const tds = tr[i].getElementsByTagName("td");
+                if (tds.length >= 4) {
+                    const tdName = tds[1]; // Name column
+                    const tdDept = tds[3]; // Dept column (inside span)
+                    
+                    if (tdName && tdDept) {
+                        const txtValueName = (tdName.textContent || tdName.innerText || '').toUpperCase();
+                        const txtValueDept = (tdDept.textContent || tdDept.innerText || '').toUpperCase();
+                        
+                        if (txtValueName.indexOf(filter) > -1 || txtValueDept.indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
                     }
                 }
             }
@@ -417,15 +435,29 @@
         async function loadEmployees() {
             try {
                 const response = await fetch(`${API_BASE_URL}/employees/`);
-                if (!response.ok) throw new Error('Failed to fetch employees');
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Failed to fetch employees: ${response.status} ${errorText}`);
+                }
 
                 employeesData = await response.json();
-                document.getElementById('totalEmployeesCount').innerText = employeesData.length; // Bonus: Update Dashboard
+                
+                // Safely update dashboard count
+                const totalCountElement = document.getElementById('totalEmployeesCount');
+                if (totalCountElement) {
+                    totalCountElement.innerText = employeesData.length;
+                }
+                
                 renderEmployeeTable();
                 updateEmployeeDropdown();
             } catch (error) {
                 console.error('Error loading employees:', error);
-                showToast('Failed to load employees', false);
+                showToast('Failed to load employees. Please check if the server is running.', false);
+                
+                // Initialize with empty data on error
+                employeesData = [];
+                renderEmployeeTable();
+                updateEmployeeDropdown();
             }
         }
 
@@ -526,19 +558,29 @@
         async function loadAttendance() {
             try {
                 const response = await fetch(`${API_BASE_URL}/attendance/`);
-                if (!response.ok) throw new Error('Failed to fetch attendance');
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Failed to fetch attendance: ${response.status} ${errorText}`);
+                }
 
                 const attendanceData = await response.json();
 
                 // Bonus: Calculate Present Today
                 const today = new Date().toISOString().split('T')[0];
                 const presentCount = attendanceData.filter(r => r.date === today && r.status === 'Present').length;
-                document.getElementById('presentTodayCount').innerText = presentCount;
+                
+                const presentCountElement = document.getElementById('presentTodayCount');
+                if (presentCountElement) {
+                    presentCountElement.innerText = presentCount;
+                }
 
                 renderAttendanceTable(attendanceData);
             } catch (error) {
                 console.error('Error loading attendance:', error);
-                showToast('Failed to load attendance records', false);
+                showToast('Failed to load attendance records. Please check if the server is running.', false);
+                
+                // Render empty table on error
+                renderAttendanceTable([]);
             }
         }
 
@@ -609,16 +651,30 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             // Set default date to today
-            document.getElementById('attDate').valueAsDate = new Date();
+            const dateInput = document.getElementById('attDate');
+            if (dateInput) {
+                dateInput.valueAsDate = new Date();
+            }
 
             // Form submissions
-            document.getElementById('employeeForm').addEventListener('submit', addEmployee);
-            document.getElementById('attendanceForm').addEventListener('submit', markAttendance);
+            const employeeForm = document.getElementById('employeeForm');
+            const attendanceForm = document.getElementById('attendanceForm');
+            
+            if (employeeForm) {
+                employeeForm.addEventListener('submit', addEmployee);
+            }
+            
+            if (attendanceForm) {
+                attendanceForm.addEventListener('submit', markAttendance);
+            }
 
             // Reload attendance data when switching to Attendance tab
-            document.getElementById('attendance-tab').addEventListener('shown.bs.tab', function () {
-                loadAttendance();
-            });
+            const attendanceTab = document.getElementById('attendance-tab');
+            if (attendanceTab) {
+                attendanceTab.addEventListener('shown.bs.tab', function () {
+                    loadAttendance();
+                });
+            }
 
             // Initial data load
             loadEmployees();
