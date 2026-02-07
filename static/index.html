@@ -402,11 +402,11 @@
         function filterEmployees() {
             const input = document.getElementById('employeeSearch');
             if (!input) return;
-            
+
             const filter = input.value.toUpperCase();
             const table = document.getElementById('employeeTableBody');
             if (!table) return;
-            
+
             const tr = table.getElementsByTagName('tr');
 
             for (let i = 0; i < tr.length; i++) {
@@ -414,11 +414,11 @@
                 if (tds.length >= 4) {
                     const tdName = tds[1]; // Name column
                     const tdDept = tds[3]; // Dept column (inside span)
-                    
+
                     if (tdName && tdDept) {
                         const txtValueName = (tdName.textContent || tdName.innerText || '').toUpperCase();
                         const txtValueDept = (tdDept.textContent || tdDept.innerText || '').toUpperCase();
-                        
+
                         if (txtValueName.indexOf(filter) > -1 || txtValueDept.indexOf(filter) > -1) {
                             tr[i].style.display = "";
                         } else {
@@ -441,19 +441,19 @@
                 }
 
                 employeesData = await response.json();
-                
+
                 // Safely update dashboard count
                 const totalCountElement = document.getElementById('totalEmployeesCount');
                 if (totalCountElement) {
                     totalCountElement.innerText = employeesData.length;
                 }
-                
+
                 renderEmployeeTable();
                 updateEmployeeDropdown();
             } catch (error) {
                 console.error('Error loading employees:', error);
                 showToast('Failed to load employees. Please check if the server is running.', false);
-                
+
                 // Initialize with empty data on error
                 employeesData = [];
                 renderEmployeeTable();
@@ -568,7 +568,7 @@
                 // Bonus: Calculate Present Today
                 const today = new Date().toISOString().split('T')[0];
                 const presentCount = attendanceData.filter(r => r.date === today && r.status === 'Present').length;
-                
+
                 const presentCountElement = document.getElementById('presentTodayCount');
                 if (presentCountElement) {
                     presentCountElement.innerText = presentCount;
@@ -578,7 +578,7 @@
             } catch (error) {
                 console.error('Error loading attendance:', error);
                 showToast('Failed to load attendance records. Please check if the server is running.', false);
-                
+
                 // Render empty table on error
                 renderAttendanceTable([]);
             }
@@ -659,11 +659,11 @@
             // Form submissions
             const employeeForm = document.getElementById('employeeForm');
             const attendanceForm = document.getElementById('attendanceForm');
-            
+
             if (employeeForm) {
                 employeeForm.addEventListener('submit', addEmployee);
             }
-            
+
             if (attendanceForm) {
                 attendanceForm.addEventListener('submit', markAttendance);
             }
