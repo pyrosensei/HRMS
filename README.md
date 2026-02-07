@@ -91,7 +91,7 @@ Built on FastAPI with async support, SQLAlchemy ORM, and optimized database quer
 
 | **Method** | **Endpoint** | **Description** | **Request Body** |
 |:----------:|--------------|-----------------|------------------|
-| `POST` | `/attendance/` | Mark attendance | `{ "employee_id": int, "date": "YYYY-MM-DD", "status": "Present\|Absent" }` |
+| `POST` | `/attendance/` | Mark attendance | `{ "employee_id": int, "date": "YYYY-MM-DD", "status": "Present/Absent" }` |
 | `GET` | `/attendance/` | View all records | None |
 
 </div>
@@ -158,7 +158,7 @@ HRMS/
 |--------|------|-------------|
 | `id` | INTEGER | PRIMARY KEY, AUTO INCREMENT |
 | `name` | VARCHAR(100) | NOT NULL |
-| `email` | VARCHAR(100) | UNIQUE, NOT NULL, INDEXED |
+| `email` | VARCHAR(100) | UNIQUE, NOT NULL |
 | `department` | VARCHAR(100) | NOT NULL |
 
 ### Attendance Table
