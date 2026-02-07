@@ -225,8 +225,8 @@
                         <form id="employeeForm">
                             <div class="row g-3">
                                 <div class="col-md-3">
-                                    <label for="empId" class="form-label">ID (Optional)</label>
-                                    <input type="number" class="form-control" id="empId" placeholder="Auto">
+                                    <label for="empId" class="form-label">Employee ID</label>
+                                    <input type="number" class="form-control" id="empId" placeholder="ID" required>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="empName" class="form-label">Full Name</label>
@@ -517,10 +517,12 @@
             const department = document.getElementById('empDept').value.trim();
             const idInput = document.getElementById('empId').value.trim();
 
-            const payload = { name, email, department };
-            if (idInput) {
-                payload.id = parseInt(idInput);
-            }
+            const payload = {
+                id: parseInt(idInput),
+                name,
+                email,
+                department
+            };
 
             try {
                 const response = await fetch(`${API_BASE_URL}/employees/`, {

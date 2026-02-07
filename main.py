@@ -41,7 +41,7 @@ app.mount("/static", StaticFiles(directory=str(static_path)), name="static")
 # ==================== Pydantic Schemas ====================
 
 class EmployeeCreate(BaseModel):
-    id: Optional[int] = None
+    id: int
     name: str
     email: str
     department: str
@@ -85,14 +85,13 @@ def create_employee(employee: EmployeeCreate, db: Session = Depends(get_db)):
     if existing_email:
         raise HTTPException(status_code=400, detail="Email already registered")
 
-    # Check if ID already exists (if provided)
-    if employee.id:
-        existing_id = db.query(Employee).filter(Employee.id == employee.id).first()
-        if existing_id:
-            raise HTTPException(status_code=400, detail=f"Employee ID {employee.id} already exists")
+    # Check if ID already exists
+    existing_id = db.query(Employee).filter(Employee.id == employee.id).first()
+    if existing_id:
+        raise HTTPException(status_code=400, detail=f"Employee ID {employee.id} already exists")
     
     db_employee = Employee(
-        id=employee.id,  # Will be None if not provided, allowing auto-increment
+        id=employee.id,
         name=employee.name,
         email=employee.email,
         department=employee.department
