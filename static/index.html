@@ -191,7 +191,8 @@
                             <span class="input-group-text bg-white border-end-0"><i
                                     class="bi bi-search text-muted"></i></span>
                             <input type="text" id="employeeSearch" class="form-control border-start-0 ps-0"
-                                placeholder="Search Employees by Name or Department..." onkeyup="filterEmployees()">
+                                placeholder="Search Employees by Name, ID, or Department..."
+                                onkeyup="filterEmployees()">
                         </div>
                     </div>
                 </div>
@@ -223,17 +224,21 @@
                         <h5><i class="bi bi-person-plus me-2"></i>Add New Employee</h5>
                         <form id="employeeForm">
                             <div class="row g-3">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
+                                    <label for="empId" class="form-label">ID (Optional)</label>
+                                    <input type="number" class="form-control" id="empId" placeholder="Auto">
+                                </div>
+                                <div class="col-md-3">
                                     <label for="empName" class="form-label">Full Name</label>
                                     <input type="text" class="form-control" id="empName" placeholder="Enter full name"
                                         required>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="empEmail" class="form-label">Email Address</label>
                                     <input type="email" class="form-control" id="empEmail" placeholder="Enter email"
                                         required>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="empDept" class="form-label">Department</label>
                                     <input type="text" class="form-control" id="empDept" placeholder="Enter department"
                                         required>
@@ -412,14 +417,16 @@
             for (let i = 0; i < tr.length; i++) {
                 const tds = tr[i].getElementsByTagName("td");
                 if (tds.length >= 4) {
+                    const tdId = tds[0];   // ID column
                     const tdName = tds[1]; // Name column
                     const tdDept = tds[3]; // Dept column (inside span)
 
                     if (tdName && tdDept) {
+                        const txtValueId = (tdId.textContent || tdId.innerText || '').toUpperCase();
                         const txtValueName = (tdName.textContent || tdName.innerText || '').toUpperCase();
                         const txtValueDept = (tdDept.textContent || tdDept.innerText || '').toUpperCase();
 
-                        if (txtValueName.indexOf(filter) > -1 || txtValueDept.indexOf(filter) > -1) {
+                        if (txtValueName.indexOf(filter) > -1 || txtValueDept.indexOf(filter) > -1 || txtValueId.indexOf(filter) > -1) {
                             tr[i].style.display = "";
                         } else {
                             tr[i].style.display = "none";
@@ -508,12 +515,18 @@
             const name = document.getElementById('empName').value.trim();
             const email = document.getElementById('empEmail').value.trim();
             const department = document.getElementById('empDept').value.trim();
+            const idInput = document.getElementById('empId').value.trim();
+
+            const payload = { name, email, department };
+            if (idInput) {
+                payload.id = parseInt(idInput);
+            }
 
             try {
                 const response = await fetch(`${API_BASE_URL}/employees/`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, email, department })
+                    body: JSON.stringify(payload)
                 });
 
                 if (!response.ok) {
