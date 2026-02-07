@@ -1,111 +1,133 @@
 <div align="center">
 
-# 🚀 HRMS Lite - Modern HR Management System
-
-### *Streamline Your Workforce Management with Cutting-Edge Technology*
+# 🚀 HRMS Lite - Modern Human Resource Management System
 
 [![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![SQLite](https://img.shields.io/badge/SQLite-3-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
-[![Deployed on Render](https://img.shields.io/badge/Deployed%20on-Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://render.com/)
+[![Render](https://img.shields.io/badge/Deployed_on-Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://render.com/)
 
----
+**A lightweight, high-performance Human Resource Management System built with cutting-edge web technologies**
 
-### ✨ A lightweight, high-performance Human Resource Management System built with modern web technologies
+[🌐 Live Demo](https://hrms-0zg8.onrender.com/static/index.html) • [📚 API Docs](https://hrms-0zg8.onrender.com/docs) • [📖 ReDoc](https://hrms-0zg8.onrender.com/redoc)
 
 </div>
 
 ---
 
-## 🌟 Key Features
+## ✨ Key Features
 
 <table>
-  <tr>
-    <td width="33%" align="center">
-      <h3>👥 Employee Management</h3>
-      <p>Effortlessly manage employee records with full CRUD operations. Add, view, and delete employee information with a clean and intuitive interface.</p>
-    </td>
-    <td width="33%" align="center">
-      <h3>📊 Smart Attendance Tracking</h3>
-      <p>Track employee attendance with date-based records. Mark Present/Absent status and maintain comprehensive attendance history.</p>
-    </td>
-    <td width="33%" align="center">
-      <h3>⚡ High-Performance Architecture</h3>
-      <p>Built on FastAPI and SQLAlchemy ORM for lightning-fast API responses and efficient database operations.</p>
-    </td>
-  </tr>
+<tr>
+<td width="33%" align="center">
+
+### 👥 Employee Management
+Complete CRUD operations for employee records with email validation and duplicate prevention
+
+</td>
+<td width="33%" align="center">
+
+### 📊 Smart Attendance Tracking
+Efficient attendance management system with date-based tracking and status monitoring
+
+</td>
+<td width="33%" align="center">
+
+### ⚡ High-Performance Architecture
+Built on FastAPI with async support, SQLAlchemy ORM, and optimized database queries
+
+</td>
+</tr>
 </table>
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Layer | Technology | Purpose |
-|-------|------------|---------|
-| **Backend Framework** | FastAPI | High-performance Python web framework with automatic API documentation |
-| **Database** | SQLite | Lightweight, serverless SQL database with SQLAlchemy ORM |
-| **Frontend** | Bootstrap 5 | Modern, responsive UI components with vanilla JavaScript |
-| **Deployment** | Render | Cloud platform for seamless deployment and hosting |
+<div align="center">
+
+| **Layer** | **Technology** | **Purpose** |
+|-----------|----------------|-------------|
+| **Backend Framework** | FastAPI | High-performance async web framework |
+| **Database** | SQLite | Lightweight relational database |
+| **ORM** | SQLAlchemy 2.0+ | Database modeling and queries |
+| **Frontend** | Bootstrap 5.3 | Responsive UI framework |
+| **Deployment** | Render | Cloud hosting platform |
+| **ASGI Server** | Uvicorn | Lightning-fast ASGI server |
+
+</div>
 
 ---
 
 ## 🌐 Live Deployment
 
-🎯 **Access the Live Application:**
-- **Frontend UI:** [https://hrms-0zg8.onrender.com/static/index.html](https://hrms-0zg8.onrender.com/static/index.html)
-- **Interactive API Docs:** [https://hrms-0zg8.onrender.com/docs](https://hrms-0zg8.onrender.com/docs)
-- **Alternative API Docs:** [https://hrms-0zg8.onrender.com/redoc](https://hrms-0zg8.onrender.com/redoc)
+<div align="center">
+
+### 🎯 **Application URL**
+**[https://hrms-0zg8.onrender.com/static/index.html](https://hrms-0zg8.onrender.com/static/index.html)**
+
+### 📚 **API Documentation**
+- **Interactive Swagger UI:** [/docs](https://hrms-0zg8.onrender.com/docs)
+- **ReDoc Interface:** [/redoc](https://hrms-0zg8.onrender.com/redoc)
+
+</div>
 
 ---
 
 ## 📡 API Snapshot
 
-### Employee Endpoints
+<div align="center">
 
-| Method | Endpoint | Description | Request Body |
-|--------|----------|-------------|--------------|
-| `POST` | `/employees/` | Create a new employee | `{ "name": "string", "email": "string", "department": "string" }` |
-| `GET` | `/employees/` | Retrieve all employees | - |
-| `DELETE` | `/employees/{id}` | Delete an employee by ID | - |
+### Employee Management
 
-### Attendance Endpoints
+| **Method** | **Endpoint** | **Description** | **Request Body** |
+|:----------:|--------------|-----------------|------------------|
+| `POST` | `/employees/` | Create new employee | `{ "name": "string", "email": "string", "department": "string" }` |
+| `GET` | `/employees/` | List all employees | None |
+| `DELETE` | `/employees/{id}` | Delete employee | None |
 
-| Method | Endpoint | Description | Request Body |
-|--------|----------|-------------|--------------|
-| `POST` | `/attendance/` | Mark attendance for an employee | `{ "employee_id": int, "date": "YYYY-MM-DD", "status": "Present/Absent" }` |
-| `GET` | `/attendance/` | Retrieve all attendance records | - |
+### Attendance Tracking
+
+| **Method** | **Endpoint** | **Description** | **Request Body** |
+|:----------:|--------------|-----------------|------------------|
+| `POST` | `/attendance/` | Mark attendance | `{ "employee_id": int, "date": "YYYY-MM-DD", "status": "Present/Absent" }` |
+| `GET` | `/attendance/` | View all records | None |
+
+</div>
 
 ---
 
-## 💻 Local Development Setup
+## 🚀 Local Development Setup
 
 ### Prerequisites
-- Python 3.8 or higher
-- pip (Python package manager)
+```bash
+✅ Python 3.8 or higher
+✅ pip (Python package manager)
+```
 
 ### Installation Steps
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/pyrosensei/HRMS.git
-   cd HRMS
-   ```
+1️⃣ **Clone the repository**
+```bash
+git clone https://github.com/pyrosensei/HRMS.git
+cd HRMS
+```
 
-2. **Install dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
+2️⃣ **Install dependencies**
+```bash
+pip install -r requirements.txt
+```
 
-3. **Run the development server:**
-   ```bash
-   uvicorn main:app --reload
-   ```
+3️⃣ **Run the development server**
+```bash
+uvicorn main:app --reload
+```
 
-4. **Access the application locally:**
-   - **Frontend UI:** http://127.0.0.1:8000/static/index.html
-   - **API Documentation (Swagger):** http://127.0.0.1:8000/docs
-   - **Alternative API Docs (ReDoc):** http://127.0.0.1:8000/redoc
+4️⃣ **Access the application**
+- 🎨 **Frontend UI:** http://127.0.0.1:8000/static/index.html
+- 📚 **API Documentation (Swagger):** http://127.0.0.1:8000/docs
+- 📖 **Alternative API Docs (ReDoc):** http://127.0.0.1:8000/redoc
 
 ---
 
@@ -113,67 +135,92 @@
 
 ```
 HRMS/
-├── 📄 main.py              # FastAPI application & RESTful API endpoints
+├── 📄 main.py              # FastAPI application & REST API endpoints
 ├── 🗄️ database.py          # Database connection & session management
-├── 📋 models.py            # SQLAlchemy ORM models (Employee & Attendance)
+├── 📋 models.py            # SQLAlchemy ORM models (Employee, Attendance)
 ├── 📦 requirements.txt     # Python dependencies
 ├── 🔧 render.yaml          # Render deployment configuration
 ├── 🗃️ hrms.db              # SQLite database (auto-generated)
-├── 🧪 test_add_employee.py # Test suite for employee operations
+├── 🧪 test_add_employee.py # Employee creation tests
 ├── ✅ verify_server.py     # Server verification script
 └── 📂 static/
-    └── 🌐 index.html       # Responsive frontend UI
+    └── 🎨 index.html       # Responsive Bootstrap frontend
 ```
 
 ---
 
 ## 🗄️ Database Schema
 
+<div align="center">
+
 ### Employee Table
 | Column | Type | Constraints |
 |--------|------|-------------|
-| `id` | INTEGER | Primary Key, Auto-increment |
-| `name` | VARCHAR(100) | Not Null |
-| `email` | VARCHAR(100) | Unique, Not Null |
-| `department` | VARCHAR(100) | Not Null |
+| `id` | INTEGER | PRIMARY KEY, AUTO INCREMENT |
+| `name` | VARCHAR(100) | NOT NULL |
+| `email` | VARCHAR(100) | UNIQUE, NOT NULL |
+| `department` | VARCHAR(100) | NOT NULL |
 
 ### Attendance Table
 | Column | Type | Constraints |
 |--------|------|-------------|
-| `id` | INTEGER | Primary Key, Auto-increment |
-| `employee_id` | INTEGER | Foreign Key → Employee.id |
-| `date` | DATE | Not Null |
-| `status` | VARCHAR(10) | Not Null (Present/Absent) |
+| `id` | INTEGER | PRIMARY KEY, AUTO INCREMENT |
+| `employee_id` | INTEGER | FOREIGN KEY → employees.id |
+| `date` | DATE | NOT NULL |
+| `status` | VARCHAR(10) | NOT NULL (Present/Absent) |
+
+</div>
 
 ---
 
-## 🎯 Features Highlights
+## 🎯 API Features
 
-- ✅ **RESTful API** - Clean and well-documented API endpoints
-- ✅ **Automatic API Documentation** - Interactive Swagger UI and ReDoc
-- ✅ **CORS Enabled** - Ready for frontend integration
-- ✅ **Input Validation** - Pydantic schemas for data validation
-- ✅ **Responsive Design** - Mobile-friendly Bootstrap 5 UI
-- ✅ **Production Ready** - Deployed on Render with Gunicorn
+- ✅ **RESTful Design** - Clean, intuitive API endpoints
+- ✅ **Data Validation** - Pydantic schemas ensure data integrity
+- ✅ **Error Handling** - Comprehensive HTTP exception handling
+- ✅ **CORS Enabled** - Cross-Origin Resource Sharing configured
+- ✅ **Auto Documentation** - Interactive Swagger UI & ReDoc
+- ✅ **ORM Relationships** - Cascade delete for data consistency
+
+---
+
+## 💡 Technical Highlights
+
+- 🚀 **Async/Await Support** - Asynchronous request handling for better performance
+- 🔒 **Email Validation** - Prevents duplicate employee records
+- 🔗 **Foreign Key Constraints** - Maintains referential integrity
+- 📱 **Responsive Design** - Mobile-friendly Bootstrap interface
+- ⚡ **Fast Startup** - SQLite for quick development cycles
+- 🎨 **Static File Serving** - Integrated frontend with FastAPI
+
+---
+
+## ⚠️ Production Notes
+
+> **Database:** This project uses **SQLite** for simplicity and rapid development. For production environments, consider migrating to **PostgreSQL** or **MySQL** for better scalability and concurrent access handling.
 
 ---
 
 ## 📝 License
 
-This project is created for demonstration and educational purposes.
+This project is created for educational and assessment purposes.
+
+---
+
+## 👨‍💻 Credits
+
+<div align="center">
+
+**Developed by [pyrosensei](https://github.com/pyrosensei)**
+
+⭐ **Star this repo if you find it helpful!** ⭐
+
+</div>
 
 ---
 
 <div align="center">
 
-## 👨‍💻 Credits
-
-**Developed by [pyrosensei](https://github.com/pyrosensei)**
-
-*Built with ❤️ using FastAPI, SQLite, and Bootstrap*
-
----
-
-### ⭐ If you find this project useful, please consider giving it a star!
+**Built with ❤️ using FastAPI and Modern Web Technologies**
 
 </div>
