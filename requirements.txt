@@ -1,0 +1,18 @@
+# FastAPI and ASGI Server
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+
+# Database
+sqlalchemy==2.0.25
+
+# Data Validation - pinned to binary-compatible versions
+pydantic==2.5.3
+pydantic-core==2.14.6
+
+# Production ASGI server for Render
+gunicorn==21.2.0
+
+# Dependencies for uvicorn standard
+watchfiles==0.21.0
+python-dotenv==1.0.1
+pyyaml==6.0.1

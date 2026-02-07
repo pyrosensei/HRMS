@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.db
+.env
+venv/
+.vscode/
+.idea/
+verify_reqs.py
+extract_pdf.py
+run_server.bat

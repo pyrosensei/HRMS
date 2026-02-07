@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRMS Lite - Human Resource Management System</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 30px 0;
+        }
+
+        .main-card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .nav-tabs {
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            color: #6c757d;
+            font-weight: 500;
+            padding: 15px 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tabs .nav-link:hover {
+            color: #667eea;
+            background: #f8f9fa;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            background: transparent;
+        }
+
+        .tab-content {
+            padding: 30px;
+        }
+
+        .form-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .form-section h5 {
+            color: #495057;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 10px 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background: #667eea;
+            color: white;
+            border: none;
+            font-weight: 500;
+            padding: 15px;
+        }
+
+        .table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+        }
+
+        .table-hover tbody tr:hover {
+            background: #f1f3ff;
+        }
+
+        .btn-danger {
+            padding: 5px 15px;
+            font-size: 0.85rem;
+        }
+
+        .badge-present {
+            background: #28a745;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .badge-absent {
+            background: #dc3545;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1055;
+        }
+
+        .form-check-input:checked {
+            background-color: #667eea;
+            border-color: #667eea;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="main-card">
+            <!-- Header -->
+            <nav class="navbar navbar-light bg-white px-4 py-3 border-bottom">
+                <span class="navbar-brand">
+                    <i class="bi bi-building text-primary me-2"></i>
+                    HRMS Lite
+                </span>
+                <span class="text-muted">Human Resource Management System</span>
+            </nav>
+
+            <!-- Dashboard Cards (Bonus) -->
+            <div class="px-4 pt-4">
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="card text-white bg-primary mb-3 shadow-sm h-100 border-0"
+                            style="background: linear-gradient(45deg, #4e54c8, #8f94fb) !important;">
+                            <div class="card-header border-0 bg-transparent">Total Employees</div>
+                            <div class="card-body">
+                                <h2 class="card-title text-center display-4 fw-bold" id="totalEmployeesCount">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card text-white bg-success mb-3 shadow-sm h-100 border-0"
+                            style="background: linear-gradient(45deg, #11998e, #38ef7d) !important;">
+                            <div class="card-header border-0 bg-transparent">Present Today</div>
+                            <div class="card-body">
+                                <h2 class="card-title text-center display-4 fw-bold" id="presentTodayCount">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Bar (Bonus) -->
+                <div class="row mb-2">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0"><i
+                                    class="bi bi-search text-muted"></i></span>
+                            <input type="text" id="employeeSearch" class="form-control border-start-0 ps-0"
+                                placeholder="Search Employees by Name or Department..." onkeyup="filterEmployees()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs Navigation -->
+            <ul class="nav nav-tabs px-4 pt-3" id="hrmsTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="employees-tab" data-bs-toggle="tab" data-bs-target="#employees"
+                        type="button" role="tab">
+                        <i class="bi bi-people-fill me-2"></i>Employees
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="attendance-tab" data-bs-toggle="tab" data-bs-target="#attendance"
+                        type="button" role="tab">
+                        <i class="bi bi-calendar-check me-2"></i>Attendance
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="hrmsTabContent">
+
+                <!-- ==================== EMPLOYEES TAB ==================== -->
+                <div class="tab-pane fade show active" id="employees" role="tabpanel">
+                    <!-- Add Employee Form -->
+                    <div class="form-section">
+                        <h5><i class="bi bi-person-plus me-2"></i>Add New Employee</h5>
+                        <form id="employeeForm">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label for="empName" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="empName" placeholder="Enter full name"
+                                        required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="empEmail" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="empEmail" placeholder="Enter email"
+                                        required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="empDept" class="form-label">Department</label>
+                                    <input type="text" class="form-control" id="empDept" placeholder="Enter department"
+                                        required>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-plus-circle me-2"></i>Add Employee
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Employee List Table -->
+                    <h5 class="mb-3"><i class="bi bi-list-ul me-2"></i>Employee Directory</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Department</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="employeeTableBody">
+                                <!-- Employee rows will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="employeeEmptyState" class="empty-state d-none">
+                        <i class="bi bi-person-x"></i>
+                        <p>No employees found. Add your first employee above!</p>
+                    </div>
+                </div>
+
+                <!-- ==================== ATTENDANCE TAB ==================== -->
+                <div class="tab-pane fade" id="attendance" role="tabpanel">
+                    <!-- Mark Attendance Form -->
+                    <div class="form-section">
+                        <h5><i class="bi bi-calendar-plus me-2"></i>Mark Attendance</h5>
+                        <form id="attendanceForm">
+                            <div class="row g-3 align-items-end">
+                                <div class="col-md-4">
+                                    <label for="attEmployee" class="form-label">Select Employee</label>
+                                    <select class="form-select" id="attEmployee" required>
+                                        <option value="">-- Choose Employee --</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="attDate" class="form-label">Date</label>
+                                    <input type="date" class="form-control" id="attDate" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Status</label>
+                                    <div class="d-flex gap-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="attStatus"
+                                                id="statusPresent" value="Present" checked>
+                                            <label class="form-check-label" for="statusPresent">
+                                                <span class="text-success fw-medium">Present</span>
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="attStatus"
+                                                id="statusAbsent" value="Absent">
+                                            <label class="form-check-label" for="statusAbsent">
+                                                <span class="text-danger fw-medium">Absent</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="bi bi-check-circle me-2"></i>Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Attendance History Table -->
+                    <h5 class="mb-3"><i class="bi bi-clock-history me-2"></i>Attendance History</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Employee ID</th>
+                                    <th>Employee Name</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="attendanceTableBody">
+                                <!-- Attendance rows will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="attendanceEmptyState" class="empty-state d-none">
+                        <i class="bi bi-calendar-x"></i>
+                        <p>No attendance records found. Mark attendance above!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container">
+        <div id="toast" class="toast align-items-center border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body" id="toastMessage"></div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // ==================== CONFIGURATION ====================
+        const API_BASE_URL = 'http://127.0.0.1:8000';
+
+        // Store employees data for reference
+        let employeesData = [];
+
+        // ==================== UTILITY FUNCTIONS ====================
+
+        // Show toast notification
+        function showToast(message, isSuccess = true) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+
+            toast.className = `toast align-items-center border-0 text-white ${isSuccess ? 'bg-success' : 'bg-danger'}`;
+            toastMessage.textContent = message;
+
+            const bsToast = new bootstrap.Toast(toast, { delay: 3000 });
+            bsToast.show();
+        }
+
+        // Format date for display
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+
+        // Get employee name by ID
+        function getEmployeeName(employeeId) {
+            const employee = employeesData.find(emp => emp.id === employeeId);
+            return employee ? employee.name : `Employee #${employeeId}`;
+        }
+
+        // Filter Employees (Bonus)
+        function filterEmployees() {
+            const input = document.getElementById('employeeSearch');
+            const filter = input.value.toUpperCase();
+            const table = document.getElementById('employeeTableBody');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 0; i < tr.length; i++) {
+                const tdName = tr[i].getElementsByTagName("td")[1]; // Name column
+                const tdDept = tr[i].getElementsByTagName("td")[3]; // Dept column (inside span)
+                if (tdName || tdDept) {
+                    const txtValueName = tdName.textContent || tdName.innerText;
+                    const txtValueDept = tdDept.textContent || tdDept.innerText;
+                    if (txtValueName.toUpperCase().indexOf(filter) > -1 || txtValueDept.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        // ==================== EMPLOYEE FUNCTIONS ====================
+
+        // Fetch and display all employees
+        async function loadEmployees() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/employees/`);
+                if (!response.ok) throw new Error('Failed to fetch employees');
+
+                employeesData = await response.json();
+                document.getElementById('totalEmployeesCount').innerText = employeesData.length; // Bonus: Update Dashboard
+                renderEmployeeTable();
+                updateEmployeeDropdown();
+            } catch (error) {
+                console.error('Error loading employees:', error);
+                showToast('Failed to load employees', false);
+            }
+        }
+
+        // Render employee table
+        function renderEmployeeTable() {
+            const tbody = document.getElementById('employeeTableBody');
+            const emptyState = document.getElementById('employeeEmptyState');
+
+            if (employeesData.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.classList.remove('d-none');
+                return;
+            }
+
+            emptyState.classList.add('d-none');
+            tbody.innerHTML = employeesData.map(emp => `
+                <tr>
+                    <td><strong>#${emp.id}</strong></td>
+                    <td>${emp.name}</td>
+                    <td><a href="mailto:${emp.email}">${emp.email}</a></td>
+                    <td><span class="badge bg-secondary">${emp.department}</span></td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="deleteEmployee(${emp.id})">
+                            <i class="bi bi-trash"></i> Delete
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Update employee dropdown in Attendance tab
+        function updateEmployeeDropdown() {
+            const dropdown = document.getElementById('attEmployee');
+            dropdown.innerHTML = '<option value="">-- Choose Employee --</option>';
+
+            employeesData.forEach(emp => {
+                const option = document.createElement('option');
+                option.value = emp.id;
+                option.textContent = `${emp.name} (${emp.department})`;
+                dropdown.appendChild(option);
+            });
+        }
+
+        // Add new employee
+        async function addEmployee(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('empName').value.trim();
+            const email = document.getElementById('empEmail').value.trim();
+            const department = document.getElementById('empDept').value.trim();
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/employees/`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, department })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.detail || 'Failed to add employee');
+                }
+
+                showToast('Employee added successfully!', true);
+                document.getElementById('employeeForm').reset();
+                loadEmployees();
+            } catch (error) {
+                console.error('Error adding employee:', error);
+                showToast(error.message, false);
+            }
+        }
+
+        // Delete employee
+        async function deleteEmployee(id) {
+            if (!confirm('Are you sure you want to delete this employee? This will also remove their attendance records.')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/employees/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) throw new Error('Failed to delete employee');
+
+                showToast('Employee deleted successfully!', true);
+                loadEmployees();
+                loadAttendance();
+            } catch (error) {
+                console.error('Error deleting employee:', error);
+                showToast('Failed to delete employee', false);
+            }
+        }
+
+        // ==================== ATTENDANCE FUNCTIONS ====================
+
+        // Fetch and display all attendance records
+        async function loadAttendance() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/attendance/`);
+                if (!response.ok) throw new Error('Failed to fetch attendance');
+
+                const attendanceData = await response.json();
+
+                // Bonus: Calculate Present Today
+                const today = new Date().toISOString().split('T')[0];
+                const presentCount = attendanceData.filter(r => r.date === today && r.status === 'Present').length;
+                document.getElementById('presentTodayCount').innerText = presentCount;
+
+                renderAttendanceTable(attendanceData);
+            } catch (error) {
+                console.error('Error loading attendance:', error);
+                showToast('Failed to load attendance records', false);
+            }
+        }
+
+        // Render attendance table
+        function renderAttendanceTable(data) {
+            const tbody = document.getElementById('attendanceTableBody');
+            const emptyState = document.getElementById('attendanceEmptyState');
+
+            if (data.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.classList.remove('d-none');
+                return;
+            }
+
+            emptyState.classList.add('d-none');
+            tbody.innerHTML = data.map(att => `
+                <tr>
+                    <td><strong>#${att.id}</strong></td>
+                    <td>#${att.employee_id}</td>
+                    <td>${getEmployeeName(att.employee_id)}</td>
+                    <td>${formatDate(att.date)}</td>
+                    <td>
+                        <span class="${att.status === 'Present' ? 'badge-present' : 'badge-absent'}">
+                            ${att.status}
+                        </span>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Mark attendance
+        async function markAttendance(event) {
+            event.preventDefault();
+
+            const employeeId = parseInt(document.getElementById('attEmployee').value);
+            const date = document.getElementById('attDate').value;
+            const status = document.querySelector('input[name="attStatus"]:checked').value;
+
+            if (!employeeId) {
+                showToast('Please select an employee', false);
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/attendance/`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ employee_id: employeeId, date, status })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.detail || 'Failed to mark attendance');
+                }
+
+                showToast('Attendance marked successfully!', true);
+                document.getElementById('attendanceForm').reset();
+                document.getElementById('attDate').valueAsDate = new Date();
+                document.getElementById('statusPresent').checked = true;
+                loadAttendance();
+            } catch (error) {
+                console.error('Error marking attendance:', error);
+                showToast(error.message, false);
+            }
+        }
+
+        // ==================== EVENT LISTENERS ====================
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Set default date to today
+            document.getElementById('attDate').valueAsDate = new Date();
+
+            // Form submissions
+            document.getElementById('employeeForm').addEventListener('submit', addEmployee);
+            document.getElementById('attendanceForm').addEventListener('submit', markAttendance);
+
+            // Reload attendance data when switching to Attendance tab
+            document.getElementById('attendance-tab').addEventListener('shown.bs.tab', function () {
+                loadAttendance();
+            });
+
+            // Initial data load
+            loadEmployees();
+            loadAttendance();
+        });
+    </script>
+</body>
+
+</html>
