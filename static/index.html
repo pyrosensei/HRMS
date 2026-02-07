@@ -364,7 +364,7 @@
         let employeesData = [];
 
         // ==================== UTILITY FUNCTIONS ====================
-j
+        j
         // Show toast notification
         function showToast(message, isSuccess = true) {
             const toast = document.getElementById('toast');
@@ -521,12 +521,14 @@ j
                     throw new Error(error.detail || 'Failed to add employee');
                 }
 
+                console.log('Employee added:', await response.json());
                 showToast('Employee added successfully!', true);
                 document.getElementById('employeeForm').reset();
                 loadEmployees();
             } catch (error) {
                 console.error('Error adding employee:', error);
-                showToast(error.message, false);
+                showToast(`Error: ${error.message}`, false);
+                alert(`Failed to add employee: ${error.message}`); // Fallback for visibility
             }
         }
 
