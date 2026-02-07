@@ -1,8 +1,10 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
+from pathlib import Path
 
-# SQLite database URL - creates a file called 'hrms.db' in the project folder
-SQLALCHEMY_DATABASE_URL = "sqlite:///./hrms.db"
+# Create database path relative to this file
+BASE_DIR = Path(__file__).resolve().parent
+SQLALCHEMY_DATABASE_URL = f"sqlite:///{BASE_DIR}/hrms.db"
 
 # Create the SQLAlchemy engine
 engine = create_engine(

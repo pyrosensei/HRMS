@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel, EmailStr
 from datetime import date
 from typing import List, Optional
+from pathlib import Path
 
 from database import engine, get_db, Base
 from models import Employee, Attendance
@@ -29,8 +30,12 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
+# Setup path for static files
+BASE_DIR = Path(__file__).resolve().parent
+static_path = BASE_DIR / "static"
+
 # Mount static files for frontend
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory=str(static_path)), name="static")
 
 
 # ==================== Pydantic Schemas ====================
@@ -146,7 +151,7 @@ def list_attendance(db: Session = Depends(get_db)):
 @app.get("/")
 def read_root():
     """Root endpoint - Serves the frontend"""
-    return FileResponse('static/index.html')
+    return FileResponse(BASE_DIR / 'static/index.html')
 
 
 if __name__ == "__main__":
