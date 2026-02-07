@@ -65,6 +65,14 @@ HRMS_Lite/
 
 ---
 
+## 🌐 Live Deployment
+
+- **Live Application:** [Add URL after deployment]
+- **API Documentation:** [Your-Render-URL]/docs
+- **Backend API:** [Your-Render-URL]
+
+---
+
 ## 📡 API Documentation
 
 ### Employee Endpoints
