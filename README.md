@@ -73,7 +73,7 @@
 
 | Method | Endpoint | Description | Request Body |
 |--------|----------|-------------|--------------|
-| `POST` | `/attendance/` | Mark attendance for an employee | `{ "employee_id": int, "date": "YYYY-MM-DD", "status": "Present\|Absent" }` |
+| `POST` | `/attendance/` | Mark attendance for an employee | `{ "employee_id": int, "date": "YYYY-MM-DD", "status": "Present/Absent" }` |
 | `GET` | `/attendance/` | Retrieve all attendance records | - |
 
 ---
